@@ -9,7 +9,7 @@ model = PlaneModel()
 
 # 3. Expose the prediction functionality, make a prediction from the passed
 #    JSON data and return the predicted flower species with the confidence
-@app.post('/predict')
+@app.get('/predict')
 
 def predict_lateplane(iris: Delay):
     data = iris.dict()
