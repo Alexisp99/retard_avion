@@ -82,6 +82,7 @@ Pygments==2.15.1
 PyJWT==2.7.0
 pymdown-extensions==10.0.1
 Pympler==1.0.1
+PyMySQL==1.0.3
 pyparsing==3.0.9
 pyrsistent==0.19.3
 pytest==7.3.1

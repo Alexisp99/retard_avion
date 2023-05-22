@@ -9,6 +9,7 @@ from streamlit_extras.switch_page_button import switch_page
 import streamlit.components.v1 as components
 import requests
 import json
+import pymysql
 
 # Configurer l'application Streamlit
 st.set_page_config(page_title="NB_RECO", page_icon="🧊", layout="wide")
@@ -246,3 +247,12 @@ with st.container():
                     # Modifier la taille des pourcentages
                     ax.legend(labels, title="Legend", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1), fontsize=10, title_fontsize=12)
                     st.pyplot(fig)
+
+
+conn = pymysql.connect(
+    host="dbplaneap.mysql.database.azure.com",
+    user="alexisp",
+    password="roadtrip99!",
+    database="plane"
+)
+st.write(conn)
