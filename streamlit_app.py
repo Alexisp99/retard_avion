@@ -22,13 +22,13 @@ def local_css(file_name):
 local_css("style.css")
 
 
-# # get the data
-# @st.cache_data
-# def get_data():
-#     url = "data/df.csv"
-#     return pd.read_csv(url)
+# get the data
+@st.cache_data
+def get_data():
+    url = "data/df.csv"
+    return pd.read_csv(url)
 
-# df = get_data()
+df = get_data()
 
 
 # ajouter une image
@@ -165,7 +165,7 @@ with st.container():
 
                         st.write(f"""
                         <div style="text-align:center">
-                            <h3>The probability of a delay is {result['probability']:.2%}</h3>
+                            <h3>Avec une probabilité de {result['probability']:.2%}</h3>
                         </div>
                         """, unsafe_allow_html=True)
 
@@ -190,69 +190,71 @@ with st.container():
                 </div>
             """, unsafe_allow_html=True)
 
-            # with st.container():
-            #     col_1, col_2 = st.columns(2, gap="large")
+            with st.container():
+                col_1, col_2 = st.columns(2, gap="large")
 
-            #     with col_1:
+                with col_1:
 
-            #         st.title("")
-            #         st.title("")
-            #         st.header("")
-            #         tab1, tab2 = st.tabs(["Temps de retard du vol par rapport à la distance du vol",
-            #                             "Distance moyenne d'un vol pour chaque mois"])
+                    st.title("")
+                    st.title("")
+                    st.header("")
+                    tab1, tab2 = st.tabs(["Temps de retard du vol par rapport à la distance du vol",
+                                        "Retard moyen mensuel"])
 
-            #         with tab1:
-            #             # tracer le scatter plot
-            #             fig, ax = plt.subplots(figsize=(6, 5))
-            #             sns.scatterplot(x="DISTANCE", y="DEP_DELAY", hue="ARR_DEL15", data=df, palette=[ "#7FFFD4" ,"#6CDFDF"])
-            #             plt.title("Temps de retard du vol par rapport à la distance du vol")
-            #             plt.ylabel("Retard ( en min )")
-            #             # fig.set_size_inches(6, 3)
-            #             st.pyplot(fig)
+                    with tab1:
+                        # tracer le scatter plot
+                        fig, ax = plt.subplots(figsize=(6, 5))
+                        sns.scatterplot(x="DISTANCE", y="DEP_DELAY", hue="ARR_DEL15", data=df, palette=[ "#7FFFD4" ,"#6CDFDF"])
+                        plt.title("Temps de retard du vol par rapport à la distance du vol")
+                        plt.ylabel("DEP_DELAY")
+                        # fig.set_size_inches(6, 3)
+                        st.pyplot(fig)
 
-            #         with tab2:
-            #         # Créer le plot avec Seaborn
-            #             fig, ax = plt.subplots(figsize=(6, 5))
-            #             sns.lineplot(x='MONTH', y='DISTANCE', data=df, color='#7FFFD4')
+                    with tab2:
+                    # Créer le plot avec Seaborn
+                        fig, ax = plt.subplots(figsize=(6, 5))
+                        # Créer le plot avec Seaborn
+                        sns.lineplot(x='MONTH', y='DEP_DELAY', data=df, color='#7FFFD4', ci = None)
 
-            #             # Ajouter un titre
-            #             plt.title("Distance moyenne d'un vol pour chaque mois")
-            #             # fig.set_size_inches(6, 3)
-            #             st.pyplot(fig)
+                        # Ajouter un titre
+                        plt.title("Retard moyen mensuel")
 
-            #     with col_2:
+                        # fig.set_size_inches(6, 3)
+                        st.pyplot(fig)
 
-            #         st.title("")
-            #         st.header("")
-            #         st.header("")
-            #         st.header("")
-            #         st.header("")
-            #         # pie chart
-            #         # calculer le nombre de vols en retard
-            #         delayed = df[df["ARR_DEL15"] == 1]
-            #         ontime = df[df["ARR_DEL15"] == 0]
-            #         num_delayed = len(delayed)
-            #         num_ontime = len(ontime)
+                with col_2:
 
-            #         # créer le pie chart
-            #         labels = ["DELAYED", "ONTIME"]
-            #         sizes = [num_delayed, num_ontime]
-            #         colors = [ "#7FFFD4" ,"#6CDFDF"]
+                    st.title("")
+                    st.header("")
+                    st.header("")
+                    st.header("")
+                    st.header("")
+                    # pie chart
+                    # calculer le nombre de vols en retard
+                    delayed = df[df["ARR_DEL15"] == 1]
+                    ontime = df[df["ARR_DEL15"] == 0]
+                    num_delayed = len(delayed)
+                    num_ontime = len(ontime)
 
-            #         fig, ax = plt.subplots(figsize=(5,5))
-            #         ax.pie(sizes, colors=colors, labels=labels, autopct='%1.1f%%', startangle=90)
-            #         # Modifier la taille du titre
-            #         plt.title("Total d'avion en retard en pourcentage", fontsize=12)
+                    # créer le pie chart
+                    labels = ["DELAYED", "ONTIME"]
+                    sizes = [num_delayed, num_ontime]
+                    colors = [ "#7FFFD4" ,"#6CDFDF"]
 
-            #         # Modifier la taille des pourcentages
-            #         ax.legend(labels, title="Legend", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1), fontsize=10, title_fontsize=12)
-            #         st.pyplot(fig)
+                    fig, ax = plt.subplots(figsize=(5,5))
+                    ax.pie(sizes, colors=colors, labels=labels, autopct='%1.1f%%', startangle=90)
+                    # Modifier la taille du titre
+                    plt.title("Total d'avion en retard en pourcentage", fontsize=12)
+
+                    # Modifier la taille des pourcentages
+                    ax.legend(labels, title="Legend", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1), fontsize=10, title_fontsize=12)
+                    st.pyplot(fig)
 
 
-conn = pymysql.connect(
-    host="dbplaneap.mysql.database.azure.com",
-    user="alexisp",
-    password="roadtrip99!",
-    database="plane"
-)
-st.write(conn)
+# conn = pymysql.connect(
+#     host="dbplaneap.mysql.database.azure.com",
+#     user="alexisp",
+#     password="roadtrip99!",
+#     database="plane"
+# )
+# st.write(conn)
